@@ -1,7 +1,10 @@
+
+
+
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const ObjectId = require('mongodb').ObjectId;
+const query = require('express/lib/middleware/query');
 
 require('dotenv').config();
 const app = express();
@@ -32,7 +35,7 @@ async function run() {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const product = await truckCollection.findOne(query);
-            res.send(product);
+            res.send({ product });
         });
 
 
@@ -42,6 +45,15 @@ async function run() {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await truckCollection.deleteOne(query);
+            res.send({ result });
+        });
+
+
+
+        // adding new item
+        app.post('/product', async (req, res) => {
+            const newItem = req.body;
+            const result = await truckCollection.insertOne(newItem)
             res.send(result);
         })
 
@@ -60,5 +72,5 @@ app.get('/', (req, res) => {
     res.send('All set for server')
 })
 app.listen(port, () => {
-    console.log("This is for lestening", port)
+    console.log("This is for lestening work", port)
 })
