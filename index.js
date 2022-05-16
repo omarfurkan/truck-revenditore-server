@@ -1,10 +1,9 @@
 
-
-
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const query = require('express/lib/middleware/query');
+require('dotenv').config();
 
 require('dotenv').config();
 const app = express();
@@ -41,7 +40,7 @@ async function run() {
 
 
         // delete an item
-        app.delete('/product/:id', async (req, res) => {
+        app.delete(`/product/:id`, async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await truckCollection.deleteOne(query);
